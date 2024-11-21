@@ -6,19 +6,14 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import FormInput from './components/FormInput';
 import QuestionCard from './components/QuestionCard';
 import CustomButton from './components/CustomButton';
 import SubmitButton from './components/SubmitButton';
 import { FormValues } from './types';
+import HeaderForm from './components/HeaderForm';
 
 function App() {
-  const {
-    register,
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormValues>({
+  const { control, handleSubmit } = useForm<FormValues>({
     mode: 'onChange',
     defaultValues: {
       title: 'title',
@@ -62,35 +57,7 @@ function App() {
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)}>
         <CardContent className='space-y-4'>
-          <FormInput
-            label='title'
-            {...register('title', {
-              required: 'Title is required',
-              minLength: {
-                value: 2,
-                message: 'Name must be at least 2 characters',
-              },
-              maxLength: {
-                value: 100,
-                message: 'Name must be less than 100 characters',
-              },
-            })}
-            error={errors.title}
-          />
-          <FormInput
-            label='description'
-            {...register('description', {
-              required: 'Description is required',
-              validate: (description) => {
-                const wordCount = description.split(' ').length;
-                return (
-                  (wordCount >= 5 && wordCount <= 100) ||
-                  'Description must be between 5 and 100 words.'
-                );
-              },
-            })}
-            error={errors.description}
-          />
+          <HeaderForm control={control} />
           {questionFields.map((field, questionIndex) => (
             <QuestionCard
               key={field.id}
