@@ -1,10 +1,14 @@
 import { ForwardedRef, forwardRef } from 'react';
 import { Input } from './ui/input';
+import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form';
 
 type OptionInputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   optionIndex: number;
   placeholder?: string;
-  error?: any;
+  error?: Merge<
+    FieldError,
+    (Merge<FieldError, FieldErrorsImpl<{ value: string }>> | undefined)[]
+  >;
   children?: React.ReactNode;
 };
 
@@ -32,7 +36,7 @@ const OptionInput = forwardRef(
         )}
       </div>
     );
-  },
+  }
 );
 
 export default OptionInput;
